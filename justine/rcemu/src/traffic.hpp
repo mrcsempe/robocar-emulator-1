@@ -82,8 +82,8 @@ class Traffic
 {
 public:
 
-  Traffic ( int size, const char * shm_segment, double catchdist, TrafficType type = TrafficType::NORMAL, int minutes = 10 )
-    :m_size ( size ), m_catchdist ( catchdist ), m_type ( type ), m_minutes ( minutes )
+  Traffic ( int size, const char * shm_segment, double catchdist, TrafficType type = TrafficType::NORMAL, int minutes = 10, int delay = 200 )
+    :m_size ( size ), m_catchdist ( catchdist ), m_type ( type ), m_minutes ( minutes ), m_delay ( delay )
   {
 
 #ifdef DEBUG
@@ -422,13 +422,14 @@ public:
   {
     return m_time;
   }
+
+int m_delay {200};
   
 protected:
 
   boost::interprocess::managed_shared_memory *segment;
   boost::interprocess::offset_ptr<shm_map_Type> shm_map;
-
-  int m_delay {200};
+  
   bool m_run {true};
   double m_catchdist {15.5};
 
