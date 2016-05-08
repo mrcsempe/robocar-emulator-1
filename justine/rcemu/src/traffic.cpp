@@ -133,8 +133,10 @@ void justine::robocar::Traffic::cmd_session ( boost::asio::ip::tcp::socket clien
                      cars_copy.size()
                      << std::endl;
 
-                  for ( auto car:cars_copy )
+                  for ( std::vector<std::shared_ptr<Car>>::iterator it=cars_copy.begin(); it != cars_copy.end(); ++it )
                     {
+                      auto car = *it;
+
                       car->step();
 
                       ss << *car
@@ -220,8 +222,10 @@ void justine::robocar::Traffic::cmd_session ( boost::asio::ip::tcp::socket clien
                 {
 
                   bool hasGangsters {false};
-                  for ( auto c:m_smart_cars )
+                  for ( std::vector<std::shared_ptr<SmartCar>>::iterator it = m_smart_cars.begin(); it != m_smart_cars.end(); ++it )
                     {
+                      auto c = *it;
+
                       if ( c->get_type() == CarType::GANGSTER )
                         {
                           length += std::sprintf ( data+length,
@@ -255,8 +259,10 @@ void justine::robocar::Traffic::cmd_session ( boost::asio::ip::tcp::socket clien
                 {
 
                   bool hasCops {false};
-                  for ( auto c:m_cop_cars )
+                  for ( std::vector<std::shared_ptr<CopCar>>::iterator it = m_cop_cars.begin(); it != m_cop_cars.end(); ++it )
                     {
+                      auto c = *it;
+
                       length += std::sprintf ( data+length,
                                                "<OK %d %u %u %u %d>", cl.get_id(), c->from(),
                                                c->to_node(), c->get_step(), c->get_num_captured_gangsters() );
