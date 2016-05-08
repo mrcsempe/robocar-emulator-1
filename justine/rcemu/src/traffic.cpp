@@ -392,8 +392,29 @@ osmium::unsigned_object_id_type justine::robocar::Traffic::naive_nearest_gangste
   double maxd = std::numeric_limits<double>::max();
   double lon2 {0.0}, lat2 {0.0};
 
-  for ( auto car:m_smart_cars )
+  /*for ( auto car:m_smart_cars )
     {
+
+      if ( car->get_type() == CarType::GANGSTER )
+        {
+
+          toGPS ( car->from(), car->to() , car->get_step(), &lon2, &lat2 );
+
+          double d = dst ( lon1, lat1, lon2, lat2 );
+
+          if ( d < maxd )
+            {
+              maxd = d;
+              ret = car->to_node();
+
+            }
+        }
+
+    }*/
+
+  for ( std::vector<std::shared_ptr<SmartCar>>::iterator it=m_smart_cars.begin() ; it != m_smart_cars.end() ; ++it )
+    {
+      auto car = *it;
 
       if ( car->get_type() == CarType::GANGSTER )
         {
