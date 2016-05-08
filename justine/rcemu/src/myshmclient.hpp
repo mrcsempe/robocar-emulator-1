@@ -113,7 +113,7 @@ public:
    * This constructor creates the BGL graph from the map graph that
    * is placed in the shared memory segment.
    */
-  MyShmClient ( const char * shm_segment, std::string teamname ) : ShmClient ( shm_segment ), m_teamname ( teamname )
+  MyShmClient ( const char * shm_segment, std::string teamname, int nrcops ) : ShmClient ( shm_segment ), m_teamname ( teamname ), m_nrcops ( nrcops )
   {
 
     nr_graph = bgl_graph();
@@ -470,6 +470,7 @@ protected:
 
   NodeRefGraph* nr_graph;
   std::string m_teamname;
+  int m_nrcops;
 
 private:
 

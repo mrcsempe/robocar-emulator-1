@@ -88,7 +88,7 @@ std::vector<justine::sampleclient::MyShmClient::Cop> justine::sampleclient::MySh
 
   boost::system::error_code err;
 
-  size_t length = std::sprintf ( data, "<init guided %s 10 c>", m_teamname.c_str() );
+  size_t length = std::sprintf ( data, "<init guided %s 10 c>", m_teamname.c_str(), m_nrcops );
 
   socket.send ( boost::asio::buffer ( data, length ) );
 

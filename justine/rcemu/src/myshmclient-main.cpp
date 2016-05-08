@@ -41,6 +41,7 @@ int main ( int argc, char* argv[] )
      ( "shm", boost::program_options::value< std::string > (), "shared memory segment name" )
      ( "port", boost::program_options::value< std::string > (), "the TCP port that the traffic server is listening on to allow agents to communicate with the traffic simulation, the default value is 10007" )
      ( "team", boost::program_options::value< std::string > (), "team name" )
+     ( "nrcops", boost::program_options::value<int>(), "cops number" )
      ;
 
      boost::program_options::variables_map vm;
@@ -80,6 +81,11 @@ int main ( int argc, char* argv[] )
        team.assign ( vm["team"].as < std::string > () );
      else
        team.assign ( "Norbi" );
+  
+     int nrcops {1};
+     if ( vm.count ( "nrcops" ) )
+          nrcops = vm["nrcops"].as < int > ();
+
      
      // If you use this sample you should add your copyright information here too:
      /*
@@ -95,12 +101,14 @@ int main ( int argc, char* argv[] )
                << "This is free software: you are free to change and redistribute it." << std::endl
                << "There is NO WARRANTY, to the extent permitted by law." << std::endl;
 
-     justine::sampleclient::MyShmClient myShmClient {shm.c_str(), team };
+     justine::sampleclient::MyShmClient myShmClient {shm.c_str(), team, nrcops };
 
      try {
           boost::asio::io_service io_service;
-          myShmClient.start10 ( io_service, port.c_str() );
-	  // myShmClient.start ( io_service, port.c_str() ); // 
+          if ( nrcops > 1 )
+               myShmClient.start10 ( io_service, port.c_str() );
+          else
+              myShmClient.start ( io_service, port.c_str() );
      } catch ( std::exception& e ) {
           std::cerr << "Exception: " << e.what() << "\n";
      }
